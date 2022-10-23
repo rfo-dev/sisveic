@@ -1,0 +1,199 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block titulo %}
+
+Controle Veículos
+{% endblock %}
+
+
+{% block content %}
+    <div class="row flex justify-center m-0 p-0">
+        <div class="col-md-10">
+          <div class="card card-plain ">
+            <div class="card-header card-header-primary text-center font-bold text-2xl bg-dark text-white">
+              <h1 class="card-title mt-0 text-slate-600 text-white"> Veículos</h1>
+            </div>
+            <div class="card-body bg-dark">
+              <div class="table-responsive">
+                <table class="table table-hover text-white">
+                  <thead class="items-center ">
+                    <th>
+                      ID
+                    </th>
+                    <th>
+                      Marca
+                    </th>
+                    <th>
+                      Modelo
+                    </th>
+                    <th>
+                      Placa
+                    </th>
+                    <th >
+                      KM
+                    </th>
+                    <th style="text-align: center; vertical-align:middle">
+                      Status
+                    </th>
+                  </thead>
+                  <tbody>
+                    {% for veiculo in lista_veiculos_cadastrados %}
+                    <tr class="">
+                      <td > 
+                        <a href="{% url 'veiculo:homeveiculo' veiculo.pk %}">
+                        {{ veiculo.pk }} 
+                        </a>
+                      </td>
+                      <td>
+                        {{ veiculo.marca }} 
+                      </td>
+                      <td>
+                        {{ veiculo.modelo }} 
+                      </td>
+                      <td>
+                        {{ veiculo.placa }} 
+                      </td>
+                      <td >
+                        {{ veiculo.kilometragem }} 
+                      </td>
+                      <td style="text-align: center; vertical-align:middle !important" >  
+                        {% if veiculo.status == 'LIVRE' %}     
+                            <span style="font-size: 15px; color: rgb(25, 131, 25);">      
+                              <i class="fa-solid fa-car-side fa-2xl "></i>
+                            </span>    
+                        {% elif veiculo.status == 'OCUPADO' %}
+                          <span style="font-size: 15px; color: rgb(194, 78, 78) ">      
+                            <i class="fa-solid fa-car-side fa-2xl "></i>
+                          </span>  
+                        {% elif veiculo.status == 'PENDENTE' %}
+                          <span style="font-size: 15px; color: rgb(206, 206, 30);">      
+                            <i class="fa-solid fa-car-side fa-2xl "></i>
+                          </span>  
+                        {% endif %}                      
+                      </td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          
+        </div>
+    </div>
+    
+    <div class="row flex justify-center  m-0 p-0 mt-5">
+      <div class="col-md-10 ">
+        <div class="card card-plain ">
+          <div class="card-header bg-dark card-header-primary text-center font-bold text-2xl">
+            <h1 class="card-title mt-0 text-slate-600 text-white"> Viagens Em Curso</h1>
+          </div>
+          <div class="card-body bg-dark ">
+            <div class="table-responsive ">
+              <table class="table table-hover text-white">
+                <thead class="items-center">
+                  <th>
+                    Motorista
+                  </th>
+                  <th>
+                    Origem
+                  </th>
+                  <th>
+                    Destino
+                  </th>
+                  <th>
+                    Dt./Hr. Inicio
+                  </th>
+                  <th >
+                    Veículo
+                  </th>
+                  <th >
+                    
+                  </th>
+                </thead>
+                <tbody>
+                  {% for viagem in lista_viagens_realizadas %}
+                    <tr class="">
+                      <td > 
+                        {{ viagem.motorista }}   
+                      </td>
+                      <td>
+                        {{ viagem.origem}} 
+                      </td>
+                      <td>
+                        {{ viagem.destino }} 
+                      </td>
+                      <td>
+                        {{ viagem.Data_Hora_Inicio }} 
+                      </td>
+                      <td >
+                        {{ viagem.veiculo }} 
+                      </td>
+                      <td style="vertical-align:middle !important ;padding: 0px;">
+                          {% if viagem.motorista_id == user.id %}     
+                            <span style="font-size: 15px;">     
+                              <a href="{% url 'veiculo:finalizarviagem' viagem.pk %}">
+                                  <i class="fa-solid fa-road fa-2xl"></i>
+                              </a> 
+                            </span>   
+                          {% elif viagem.motorista_id != user.id %}
+                            <span style="font-size: 15px;">     
+                                <i class="fa-solid fa-road fa-2xl"></i> 
+                          {% endif %}      
+                      </td>
+                    </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <!-- <div class=" mt-3">-->
+          <!-- <button class=" inline-block px-6 py-2.5 bg-cyan-900 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out rounded-md mt-10" data-toggle="modal" data-target=".bd-example-modal-xl">INICIAR VIAGEM</button>-->
+         <!--</div>-->
+       
+        <a href="{% url 'veiculo:criarviagem' %}">  
+          <button type="submit" class="inline-block px-6 py-2.5 bg-cyan-900 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out rounded-md mt-10">
+              Iniciar Viagem
+          </button>
+        </a>
+
+
+    {% for message in messages%}
+      {% if message.tags == 'success' %}
+      <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js"></script>
+      <script>
+        $(document).ready(function(){
+          $("#exampleModal2").modal()
+        });
+        
+      </script>
+      {% endif %}
+    {% endfor %}
+    <!-- Modal -->
+
+    <div class="modal" id="exampleModal2" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h6 class="modal-title text-gray-800" id="exampleModalLabel"><i class="fas-check"></i>Sucesso!</h6>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body text-center">
+              <div class="text-center text mt-3">
+                <i class="fa-solid fa-circle-check fa-6x" style="color:#6bb83f"></i>
+              </div>
+              <br>
+              <div class="mb-3 row d-flex justify-content-center">
+                <strong class="font-medium leading-normal text-gray-800">Viagem cadastrada com sucesso! </strong> 
+              </div>
+          </div>
+          <div class="modal-footer">
+           </div>
+        </div>
+      </div>
+    </div>   
+
+{% endblock %}

@@ -1,0 +1,144 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block titulo %}
+Pefil Usuário
+{% endblock %}
+
+{% block content %}
+
+
+
+<div class="ml-5 mr-5 border rounded border-success">
+    <h1>Pefil Usuário {{user}}</h1><br>
+    {% for usuario in object_list %}
+        {% if usuario == user %}
+            Nome: {{usuario.first_name}} {{usuario.last_name}} <br>
+            CPF: {{usuario.CPF}} <br>
+            CNH {{usuario.CNH}} <br>
+        {%endif%}
+    {%endfor%}
+</div>
+
+<div class="m-5 row" >
+    <div class="col-6 p-0 m-0 pr-1">
+        <div class="card-header bg-dark card-header-primary text-center">
+            <h6 class="text-white font-bold"> Viagens Pendentes</h6>
+        </div>
+        <div class="card-body bg-dark ">
+            <div class="table-responsive ">
+                <table class="table text-white table-sm">
+                    <thead class="items-center">
+                        <th><small class="font-bold">Origem</small></th>
+                        <th><small class="font-bold">Destino</small></th>
+                        <th><small class="font-bold">Dt./Hr. Inicio</small></th>
+                        <th><small class="font-bold">Veículo</small></th>
+                        <th> </th>
+                    </thead>
+                       
+                    <tbody>
+                        {% for viagem in lista_viagens_pendentes %}
+                        <tr class="">
+                            <td><small>{{viagem.origem}}</small></td>    
+                            <td><small>{{viagem.destino}}</small></td>
+                            <td><small>{{viagem.Data_Hora_Inicio}}</small></td>
+                            <td><small>{{viagem.veiculo}}</small></td>
+                            <td style="vertical-align:middle ;padding: 0px;">  
+                                <div class="flex align-middle">
+                                   <button type="button" class="btn p-1">
+                                       <a href="{% url 'veiculo:finalizarviagem' viagem.pk %}"><i class="fa-solid fa-flag-checkered"></i></a>
+                                   </button>
+                                   <button type="button" class="btn p-1" style="border:none">
+                                       <i class="fa-solid fa-file-lines"></i> 
+                                   </button>  
+                                   <button type="button" class="btn p-1" style="border:none">
+                                       <i class="fa-solid fa-trash-can"></i>
+                                   </button>  
+                               </div>
+                             </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>  
+        </div>   
+    </div>
+
+    <div class="col-6 rounded">
+        <div class="card-header bg-dark card-header-primary text-center">
+            <h6 class="text-white font-bold">Viagens Finalizadas</h6>
+        </div>
+        <div class="card-body bg-dark ">
+            <div class="table-responsive ">
+                <table class="table text-white table-sm">
+                    <thead class="items-center">
+                        <th><small class="font-bold">Motorista</small></th>
+                        <th><small class="font-bold">Origem</small></th>
+                        <th><small class="font-bold">Destino</small></th>
+                        <th><small class="font-bold">Dt./Hr. Inicio</small></th>
+                        <th><small class="font-bold">Dt./Hr. Fim</small></th>
+                        <th><small class="font-bold">Veículo</small></th>
+                    </thead>
+                       
+                    <tbody>
+                        {% for viagem in lista_viagens_finalizadas %}
+                        <tr class="">
+                            <td><small>{{viagem.motorista}}</small></td>
+                            <td><small>{{viagem.origem}}</small></td>    
+                            <td><small>{{viagem.destino}}</small></td>
+                            <td><small>{{viagem.Data_Hora_Inicio}}</small></td>
+                            <td><small>{{viagem.Data_Hora_Fim}}</small></td>
+                            <td><small>{{viagem.veiculo}}</small></td>   
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>  
+        </div> 
+  
+    </div>
+</div>
+
+    {% for message in messages%}
+        {% if message.tags == 'success' %}
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js"></script>
+        <script>
+            $(document).ready(function(){
+            $("#exampleModal3").modal()
+            });
+            
+        </script>
+        {% endif %}
+    {% endfor %}
+    <!-- Modal -->
+
+    <div class="modal" id="exampleModal3" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h6 class="modal-title text-gray-800" id="exampleModalLabel"><i class="fas-check"></i>Sucesso!</h6>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body text-center">
+              <div class="text-center text mt-3">
+                <i class="fa-solid fa-circle-check fa-6x" style="color:#6bb83f"></i>
+              </div>
+              <br>
+              <div class="mb-3 row d-flex justify-content-center">
+                <strong class="font-medium leading-normal text-gray-800">Viagem finalizada com sucesso! </strong> 
+              </div>
+          </div>
+          <div class="modal-footer">
+           </div>
+        </div>
+      </div>
+    </div> 
+{% endblock %}
+
+
+
+
+

@@ -1,0 +1,55 @@
+{% load static %}
+{% load crispy_forms_tags %}
+{% load widget_tweaks %}
+{% load bootstrap4 %}
+{% bootstrap_css %}
+
+
+
+<nav class="w-full avbar navbar-expand-lg navbar-dark bg-dark fixed py-3 px-4" style="width: 100%;box-sizing: border-box;">
+    <div class="flex justify-content-between"><div><a class="navbar-brand p-2" href="/">Digium Tecnologia</a></div>{%if user.is_authenticated %}<div class="pt-3"><h2> Bem vindo {{user}} !</h2></div></div>{% endif %}
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#conteudoNavbarSuportado" aria-controls="conteudoNavbarSuportado" aria-expanded="false" aria-label="Alterna navegação">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    {%if user.is_authenticated %}
+    <div class="collapse navbar-collapse" id="conteudoNavbarSuportado">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="{% url 'veiculo:homepage' %}">Home <span class="sr-only">(página atual)</span></a>
+        </li>
+        <li class="nav-item active">
+          <a class="nav-link" href="#">Ajuda</a>
+        </li>
+        <li class="nav-item active" data-toggle="modal" data-target=".bd-example-modal-xl">
+          <a class="nav-link " href="#">Iniciar Viagem</a>
+        </li>
+        <li class="nav-item dropdown active">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Profile
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="{% url 'veiculo:perfilusuario' %}">Suas Viagens</a>
+            <a class="dropdown-item" href="{% url 'veiculo:editarperfil' user.pk %}">Editar Perfil</a>
+            <a class="dropdown-item" href="{% url 'veiculo:mudarsenha' user.pk %}">Alterar Senha</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="{% url 'veiculo:logout' %}">Sair</a>
+          </div>
+        </li>
+      </ul>
+      
+      <form class="form-inline my-2 my-lg-0" method="get" action="{% url 'veiculo:pesquisaveiculo' %}">
+        <input class="form-control mr-sm-2" type="text" placeholder="Pesquisar..." name= 'query' aria-label="Pesquisar">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Pesquisar</button>
+      </form>
+    </div>
+    {% endif %}
+  </nav>
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,1 @@
+web: gunicorn controle_veiculos.wsgi --log-file -

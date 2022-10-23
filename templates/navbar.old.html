@@ -1,0 +1,59 @@
+{% load static %}
+
+<nav class="w-full flex justify-between items-center py-3 px-4 bg-orange-400 mr-0 fixed" >
+    <div class="w-6/12">
+        <a href="/">
+           <img class="w-5/12" src="{% static 'images/logo.png' %}">
+        </a>
+        <div class = "text-black">
+           <b>SISTEMA DE CONTROLE DE VEÍCULOS</b> 
+        </div>
+        
+    </div>
+
+    <div class="w-6/12 grid justify-end" style="grid-template-columns: 3fr 0.9fr 0.9fr;">
+        {%if user.is_authenticated %}
+        <div class="" style="text-align: right;">
+            <form method="get" action="{% url 'veiculo:pesquisaveiculo' %}">
+                <input type="text" class="py-1 px-2 rounded-md text-black" name= 'query' placeholder="Pesquisar...">
+                <input type="submit" value="">
+            </form>
+        </div>
+        {% endif %}
+         
+        <div class="" style="text-align: right;">
+           {%if user.is_authenticated %}
+            <a href="{% url 'veiculo:logout' %}">
+                <button class="bg-cyan-900 text-white py-1 px-3 rounded-md">
+                    Sair
+                </button>
+            </a>
+            {% else %}
+            <a href="{% url 'veiculo:login' %}">
+                <button class="bg-cyan-900 text-white py-1 px-3 rounded-md">
+                    Login
+                </button>
+            </a>
+            {% endif %}
+        </div>
+        
+        <div class="" style="text-align: center;">
+            {%if user.is_authenticated %}
+            <a href="{% url 'veiculo:editarperfil' user.pk %}">
+                <button class="bg-cyan-900 text-white py-1 px-3 rounded-md">
+                    Editar Perfil
+                </button>
+            </a>
+            {% endif %}
+           
+        </div>
+        {%if user.is_authenticated %}
+        <a href="{% url 'veiculo:perfilusuario' %}">
+        <div class="mt-2" style="text-align: right; "> 
+            <i class="fa-solid fa-user mr-2" style="color: rgb(4, 4, 75)"></i>
+             <span style="color: rgb(4, 4, 75)" class="">Olá {{user}}, bem vindo!</span>
+        </div>
+        </a>
+        {% endif %}
+    </div >
+</nav>

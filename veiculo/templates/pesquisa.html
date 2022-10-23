@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block titulo %}
+Pesquisa de Veiculos
+{% endblock %}
+
+{% block content %}
+    <section class=' justify-center'>
+        <div class="p-8 w-10/12 relative" >
+            <h2 class="text-gray-200 text-2xl font-medium mb-10">
+                Resultados da Busca:
+            </h2>
+                <div class="">
+                  {% for veiculo in object_list %}
+                    <div class="cursor-pointer mb-3">
+                        <a href="{% url 'veiculo:homeveiculo' veiculo.pk %}">
+                            {{veiculo.modelo}} - {{veiculo.placa}} <br>
+                        </a>
+                    </div>
+                  {% endfor %}
+                </div>
+            </div>
+        </section>
+{% endblock %}
